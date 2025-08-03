@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare EVs - EVMatch</title>
+    <link rel="stylesheet" href="main-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Compare Page Specific Styles */
+        .compare-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            min-height: 100vh;
+        }
+
+        .compare-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .compare-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .compare-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .compare-selector {
+            margin-bottom: 3rem;
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 1rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .vehicle-selector {
+            background: white;
+            border: 3px dashed #d1d5db;
+            border-radius: 20px;
+            padding: 2rem;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .vehicle-selector:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+        }
+
+        .vehicle-selector.selected {
+            border-color: #10b981;
+            border-style: solid;
+            background: white;
+        }
+
+        .selector-placeholder {
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .selector-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #10b981;
+        }
+
+        .selector-placeholder span {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .vs-divider {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .selected-vehicle {
+            text-align: center;
+            width: 100%;
+        }
+
+        .selected-vehicle-image {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .make-badge {
+            background: rgba(255, 255, 255, 0.9);
+            color: #059669;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .selected-vehicle-info {
+            text-align: center;
+        }
+
+        .selected-vehicle-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .selected-vehicle-price {
+            color: #10b981;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .selected-vehicle-specs {
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+
+        .remove-vehicle-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .remove-vehicle-btn:hover {
+            background: rgba(239, 68, 68, 1);
+            transform: scale(1.1);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr 1fr;
+            gap: 1rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1.5rem;
+            font-weight: 600;
+        }
+
+        .spec-column {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .vehicle-column {
+            text-align: center;
+        }
+
+        .comparison-header {
+            text-align: center;
+        }
+
+        .comparison-vehicle-name {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .comparison-vehicle-price {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .table-body {
+            padding: 0;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            align-items: center;
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .spec-value {
+            text-align: center;
+            color: #6b7280;
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .spec-value.best {
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+        }
+
+        /* Popular Comparisons */
+        .popular-comparisons {
+            margin-top: 3rem;
+        }
+
+        .popular-comparisons h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 2rem;
+        }
+
+        .comparison-suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .suggestion-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-color: #10b981;
+        }
+
+        .suggestion-card h3 {
+            color: #10b981;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .suggestion-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .vehicle-search {
+            margin-bottom: 1.5rem;
+        }
+
+        .vehicle-search input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .vehicle-search input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .vehicle-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .vehicle-option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .vehicle-option:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+        }
+
+        .vehicle-option-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .vehicle-option-image {
+            width: 60px;
+            height: 45px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vehicle-option-image .make-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+        }
+
+        .vehicle-option-details {
+            flex: 1;
+        }
+
+        .vehicle-option-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .vehicle-option-price {
+            color: #10b981;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .vehicle-option-specs {
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .selector-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .vs-divider {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                margin: 0.5rem auto;
+            }
+
+            .table-header,
+            .comparison-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .spec-label {
+                font-weight: 700;
+                color: #1f2937;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+            }
+        }
+
+        /* Loading and Empty States */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-comparison {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .empty-comparison i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-comparison h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+
+        .empty-comparison p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-add-vehicles {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-vehicles:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">EVMatch</a>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="browse.html" class="nav-link">Browse EVs</a></li>
+                    <li><a href="compare.html" class="nav-link active">Compare</a></li>
+                    <li><a href="quiz.html" class="nav-link">Find My EV</a></li>
+                    <li><a href="charging.html" class="nav-link">Charging Stations</a></li>
+                    <li><a href="review.html" class="nav-link">Reviews</a></li>
+                </ul>
+                <div class="user-menu">👤</div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="compare-container">
+        <div class="compare-header">
+            <h1>Compare Electric Vehicles</h1>
+            <p>Side-by-side comparison of EV specifications and features</p>
+        </div>
+
+        <div class="compare-selector">
+            <div class="selector-grid">
+                <div class="vehicle-selector" id="selector1">
+                    <div class="selector-placeholder">
+                        <i class="fas fa-plus"></i>
+                        <span>Select First Vehicle</span>
+                    </div>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="vehicle-selector" id="selector2">
+                    <div class="selector-placeholder">
+                        <i class="fas fa-plus"></i>
+                        <span>Select Second Vehicle</span>
+                    </div>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="vehicle-selector" id="selector3">
+                    <div class="selector-placeholder">
+                        <i class="fas fa-plus"></i>
+                        <span>Select Third Vehicle</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-table" id="comparisonTable" style="display: none;">
+            <div class="table-header">
+                <div class="spec-column">Specifications</div>
+                <div class="vehicle-column" id="vehicle1Header"></div>
+                <div class="vehicle-column" id="vehicle2Header"></div>
+                <div class="vehicle-column" id="vehicle3Header"></div>
+            </div>
+            <div class="table-body" id="comparisonBody">
+                <!-- Comparison rows will be generated here -->
+            </div>
+        </div>
+
+        <div id="emptyComparison" class="empty-comparison">
+            <i class="fas fa-balance-scale"></i>
+            <h3>Start Comparing EVs</h3>
+            <p>Select up to 3 electric vehicles to compare their specifications, features, and pricing side by side.</p>
+            <button class="btn-add-vehicles" onclick="document.getElementById('selector1').click()">
+                <i class="fas fa-plus"></i> Add Your First Vehicle
+            </button>
+        </div>
+
+        <div class="popular-comparisons">
+            <h2>Popular Comparisons</h2>
+            <div class="comparison-suggestions">
+                <div class="suggestion-card" onclick="loadPopularComparison(['Tata Nexon.ev', 'MG ZS EV', 'Mahindra BE 6e'])">
+                    <h3>Premium SUVs</h3>
+                    <p>Tata Nexon.ev vs MG ZS EV vs Mahindra BE 6e</p>
+                </div>
+                <div class="suggestion-card" onclick="loadPopularComparison(['Tata Tiago.ev', 'MG Comet EV', 'Citroën eC3'])">
+                    <h3>Affordable Hatchbacks</h3>
+                    <p>Tata Tiago.ev vs MG Comet EV vs Citroën eC3</p>
+                </div>
+                <div class="suggestion-card" onclick="loadPopularComparison(['Mahindra XEV 9e', 'Tata Harrier.ev', 'MG Windsor EV'])">
+                    <h3>Long Range Champions</h3>
+                    <p>Mahindra XEV 9e vs Tata Harrier.ev vs MG Windsor EV</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Vehicle Selection Modal -->
+    <div id="vehicleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Vehicle</h3>
+                <button class="close-modal" onclick="closeVehicleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="vehicle-search">
+                    <input type="text" id="vehicleSearch" placeholder="Search vehicles by make or model...">
+                </div>
+                <div class="vehicle-list" id="vehicleList">
+                    <!-- Vehicle options will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main-app.js"></script>
+    <script src="browse.js"></script>
+    <script src="compare.js"></script>
+</body>
+
+</html>

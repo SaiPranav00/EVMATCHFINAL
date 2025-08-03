@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVMatch - Forgot Password</title>
+    <link rel="stylesheet" href="signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>EVMatch</span>
+                </div>
+                <h1>Reset Password</h1>
+                <p>Enter your email address and we'll send you a link to reset your password</p>
+            </div>
+
+            <form class="auth-form" id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="resetEmail" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span>Send Reset Link</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Remember your password? <a href="index.html">Sign in</a></p>
+                <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+            </div>
+        </div>
+
+        <div class="auth-info">
+            <div class="info-content">
+                <h2>Secure Account Recovery</h2>
+                <p>We'll help you get back into your EVMatch account quickly and securely.</p>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure Reset Process</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <span>Quick Recovery</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-envelope-open"></i>
+                        <span>Email Verification</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+
+</html>

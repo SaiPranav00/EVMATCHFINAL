@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVMatch - Welcome Back</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(16, 185, 129, 0.7) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: backgroundShift 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+
+            0%,
+            100% {
+                background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(16, 185, 129, 0.7) 100%);
+            }
+
+            50% {
+                background: linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(16, 185, 129, 0.9) 100%);
+            }
+        }
+
+        .container {
+            display: flex;
+            background: #fafafa;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+            animation: slideUp 0.8s ease-out;
+            transform: translateY(0);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section {
+            background: #fafafa;
+            padding: 50px;
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeInLeft 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .info-section {
+            background: rgba(16, 185, 129, 0.9);
+            padding: 50px;
+            width: 550px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeInRight 0.8s ease-out 0.4s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(-20px, -20px) rotate(180deg);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            animation: bounceIn 1s ease-out 0.6s both;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: rgba(16, 185, 129, 0.9);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.6s ease-out 0.8s both;
+        }
+
+        .form-subtitle {
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-size: 16px;
+            animation: fadeInUp 0.6s ease-out 0.9s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 1.0s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 1.1s;
+        }
+
+        .form-label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            transform: translateY(0);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(16, 185, 129, 0.9);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .password-toggle:hover {
+            color: rgba(16, 185, 129, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease-out 1.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .checkbox:hover {
+            transform: scale(1.1);
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .forgot-password {
+            color: rgba(16, 185, 129, 0.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: rgba(16, 185, 129, 1);
+            text-decoration: underline;
+        }
+
+        .sign-in-btn {
+            width: 100%;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.6s ease-out 1.3s both;
+        }
+
+        .sign-in-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .sign-in-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .sign-in-btn:hover::before {
+            left: 100%;
+        }
+
+        .sign-in-btn:hover:not(:disabled) {
+            background: rgba(16, 185, 129, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .sign-in-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .divider {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 24px;
+            position: relative;
+            animation: fadeIn 0.6s ease-out 1.4s both;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .divider span {
+            background: #fafafa;
+            padding: 0 20px;
+            font-weight: 500;
+        }
+
+        .google-btn {
+            width: 100%;
+            background: white;
+            color: #374151;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            animation: slideInUp 0.6s ease-out 1.5s both;
+        }
+
+        .google-btn:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sign-up-link {
+            text-align: center;
+            color: #6b7280;
+            font-size: 15px;
+            animation: fadeIn 0.6s ease-out 1.6s both;
+        }
+
+        .sign-up-link a {
+            color: rgba(16, 185, 129, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .sign-up-link a:hover {
+            color: rgba(16, 185, 129, 1);
+            text-decoration: underline;
+        }
+
+        .info-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            z-index: 1;
+            position: relative;
+            animation: slideInRight 0.6s ease-out 0.8s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .info-subtitle {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            z-index: 1;
+            position: relative;
+            animation: slideInRight 0.6s ease-out 1.0s both;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            z-index: 1;
+            position: relative;
+            animation: slideInRight 0.6s ease-out both;
+        }
+
+        .feature:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+
+        .feature:nth-child(4) {
+            animation-delay: 1.4s;
+        }
+
+        .feature:nth-child(5) {
+            animation-delay: 1.6s;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-icon:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-text {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .demo-credentials {
+            background: #e0f2fe;
+            border: 1px solid #b3e5fc;
+            color: #0277bd;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-credentials:hover {
+            background: #b3e5fc;
+        }
+
+        .user-credentials {
+            background: #f3e8ff;
+            border: 1px solid #d8b4fe;
+            color: #7c3aed;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-credentials:hover {
+            background: #e9d5ff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+
+            .form-section,
+            .info-section {
+                width: 100%;
+            }
+
+            .form-section {
+                order: 2;
+                padding: 30px;
+            }
+
+            .info-section {
+                order: 1;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-section">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">EVMatch</span>
+            </div>
+
+            <h1 class="form-title">Welcome Back</h1>
+            <p class="form-subtitle">Sign in to your EVMatch account</p>
+
+            <div id="message-container"></div>
+
+
+            <!-- Demo Credentials Helper -->
+            <div class="demo-credentials" onclick="fillDemoCredentials()">
+                💡 Or click here for demo credentials: admin@evmatch.com
+            </div>
+
+            <form id="signinForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="✉️ Enter your email" id="email" name="email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-input">
+                        <input type="password" class="form-input" placeholder="🔒 Enter your password" id="password"
+                            name="password" required>
+                        <span class="password-toggle" onclick="togglePassword('password')">👁️</span>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" class="checkbox" id="remember" name="remember">
+                        <label for="remember" class="checkbox-label">Remember me</label>
+                    </div>
+                    <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="sign-in-btn" id="submitBtn">
+                    <span id="btnText">Sign In →</span>
+                    <div id="btnSpinner" class="loading-spinner" style="display: none;"></div>
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <button type="button" class="google-btn" onclick="handleGoogleSignIn()">
+                    <span style="font-weight: bold; color: #4285f4;">G</span>
+                    Continue with Google
+                </button>
+
+                <div class="sign-up-link">
+                    Don't have an account? <a href="signup.html">Sign up</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="info-section">
+            <h2 class="info-title">Find Your Perfect Electric Vehicle</h2>
+            <p class="info-subtitle">
+                Discover, compare, and choose from thousands of electric vehicles with our intelligent matching system.
+            </p>
+
+            <div class="feature">
+                <div class="feature-icon">🔍</div>
+                <div class="feature-text">Smart EV Discovery</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <div class="feature-text">Vehicle Comparison</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">📍</div>
+                <div class="feature-text">Charging Station Locator</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // Demo credentials for testing
+        const DEMO_CREDENTIALS = {
+            email: "admin@evmatch.com",
+            password: "EVMatch2024!"
+        };
+
+        // Registered users database (simulated) - Only demo account
+        const REGISTERED_USERS = [
+            {
+                email: "admin@evmatch.com",
+                password: "EVMatch2024!",
+                firstName: "Admin",
+                lastName: "User"
+            }
+        ];
+
+        // Load registered users from localStorage
+        function loadRegisteredUsers() {
+            const storedUsers = localStorage.getItem('registeredUsers');
+            if (storedUsers) {
+                const parsedUsers = JSON.parse(storedUsers);
+                // Merge with default users, avoiding duplicates
+                parsedUsers.forEach(user => {
+                    if (!REGISTERED_USERS.find(u => u.email === user.email)) {
+                        REGISTERED_USERS.push(user);
+                    }
+                });
+            }
+        }
+
+        // Save registered users to localStorage
+        function saveRegisteredUsers() {
+            // Only save non-demo users
+            const usersToSave = REGISTERED_USERS.filter(user => user.email !== "admin@evmatch.com");
+            localStorage.setItem('registeredUsers', JSON.stringify(usersToSave));
+        }
+
+        // DOM Elements
+        const signinForm = document.getElementById('signinForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const messageContainer = document.getElementById('message-container');
+
+        // Form submission handler - FIXED FOR PROPER USER REGISTRATION
+        signinForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Load any registered users from localStorage first
+            loadRegisteredUsers();
+
+            const formData = new FormData(signinForm);
+            const email = formData.get('email').trim();
+            const password = formData.get('password');
+            const remember = formData.get('remember');
+
+            console.log('Sign in attempt:', { email, remember });
+            console.log('Available users:', REGISTERED_USERS.map(u => u.email));
+
+            // Validate form
+            if (!validateForm(email, password)) {
+                return;
+            }
+
+            // Show loading state
+            setLoadingState(true);
+            clearMessages();
+
+            try {
+                // Try API login first
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    console.log('✅ API login successful');
+
+                    // Store token
+                    const storage = remember ? localStorage : sessionStorage;
+                    storage.setItem('authToken', data.data.token);
+                    storage.setItem('user', JSON.stringify(data.data.user));
+
+                    showMessage('✅ Login successful! Redirecting to dashboard...', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    return;
+                } else {
+                    // Handle API error response
+                    if (data.needsEmailVerification) {
+                        // Store email for OTP verification
+                        localStorage.setItem('otpEmail', data.userEmail || email);
+
+                        showMessage('📧 Please verify your email address. Redirecting to verification page...', 'error');
+
+                        setTimeout(() => {
+                            window.location.href = `verify-otp.html?email=${encodeURIComponent(data.userEmail || email)}`;
+                        }, 2000);
+                        return;
+                    }
+
+                    const errorMessage = data.message || 'Invalid email or password';
+                    showMessage(`❌ ${errorMessage}`, 'error');
+                    return;
+                }
+            } catch (apiError) {
+                console.log('API login failed, trying localStorage fallback:', apiError);
+
+                // Fallback to localStorage for existing demo users
+                // Load any registered users from localStorage first
+                loadRegisteredUsers();
+
+                const user = REGISTERED_USERS.find(u =>
+                    u.email.toLowerCase() === email.toLowerCase() &&
+                    u.password === password
+                );
+
+                if (user) {
+                    console.log('✅ Local authentication successful for:', user.email);
+
+                    // Create mock token and user data
+                    const mockToken = 'local-token-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    const userData = {
+                        id: 'user-' + Date.now(),
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        isEmailVerified: true
+                    };
+
+                    // Store token
+                    const storage = remember ? localStorage : sessionStorage;
+                    storage.setItem('authToken', mockToken);
+                    storage.setItem('user', JSON.stringify(userData));
+
+                    showMessage('✅ Login successful! Redirecting to dashboard...', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    return;
+                }
+
+                // If both API and local storage failed
+                showMessage('❌ Unable to connect to server. Please check your internet connection.', 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+        // Form validation
+        function validateForm(email, password) {
+            clearFieldErrors();
+            let isValid = true;
+
+            if (!email || !isValidEmail(email)) {
+                showFieldError('email', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!password || password.length < 3) {
+                showFieldError('password', 'Password is required');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Email validation
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Show field error
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            field.classList.add('error');
+
+            // Remove existing error message
+            const existingError = field.parentNode.querySelector('.field-error');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Add error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'field-error';
+            errorDiv.style.cssText = 'color: #dc2626; font-size: 12px; margin-top: 4px;';
+            errorDiv.textContent = message;
+            field.parentNode.appendChild(errorDiv);
+        }
+
+        // Clear field errors
+        function clearFieldErrors() {
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+            document.querySelectorAll('.field-error').forEach(error => {
+                error.remove();
+            });
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+
+            messageDiv.innerHTML = `<span>${message}</span>`;
+
+            messageContainer.innerHTML = '';
+            messageContainer.appendChild(messageDiv);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Clear messages
+        function clearMessages() {
+            messageContainer.innerHTML = '';
+        }
+
+        // Set loading state
+        function setLoadingState(loading) {
+            submitBtn.disabled = loading;
+            btnText.style.display = loading ? 'none' : 'inline';
+            btnSpinner.style.display = loading ? 'inline-block' : 'none';
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggle = input.parentElement.querySelector('.password-toggle');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                toggle.textContent = '👁️';
+            }
+        }
+
+        // Fill demo credentials
+        function fillDemoCredentials() {
+            document.getElementById('email').value = DEMO_CREDENTIALS.email;
+            document.getElementById('password').value = DEMO_CREDENTIALS.password;
+            showMessage('💡 Demo credentials filled! Click Sign In to continue.', 'success');
+        }
+
+        // Google Sign In handler
+        function handleGoogleSignIn() {
+            showMessage('Google Sign-In integration would be implemented here with OAuth 2.0', 'error');
+        }
+
+        // Check for URL parameters (like success messages from signup)
+        window.addEventListener('load', () => {
+            loadRegisteredUsers(); // Load any registered users
+
+            // Check for URL parameters for messages
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            if (message) {
+                showMessage(message, 'success');
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
+</body>
+
+</html>

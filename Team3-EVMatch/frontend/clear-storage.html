@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clear Storage - EVMatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #f0f9ff;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        button:hover {
+            background: #059669;
+        }
+
+        .success {
+            color: #059669;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>🔧 EVMatch Debug Tools</h2>
+        <p>Use these tools to clear stored data and test authentication</p>
+
+        <button onclick="clearAllStorage()">Clear All Storage</button>
+        <button onclick="clearTokensOnly()">Clear Auth Tokens Only</button>
+        <button onclick="showStorageInfo()">Show Storage Info</button>
+        <button onclick="testLogin()">Test Login API</button>
+
+        <div id="message"></div>
+        <div id="storageInfo"></div>
+
+        <hr style="margin: 30px 0;">
+        <p><a href="index.html" style="color: #10b981;">← Back to Sign In</a></p>
+        <p><a href="signup.html" style="color: #10b981;">Go to Sign Up →</a></p>
+    </div>
+
+    <script>
+        function clearAllStorage() {
+            localStorage.clear();
+            sessionStorage.clear();
+            document.getElementById('message').innerHTML = '<div class="success">✅ All storage cleared!</div>';
+            setTimeout(() => showStorageInfo(), 500);
+        }
+
+        function clearTokensOnly() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('user');
+            document.getElementById('message').innerHTML = '<div class="success">✅ Auth tokens cleared!</div>';
+            setTimeout(() => showStorageInfo(), 500);
+        }
+
+        function showStorageInfo() {
+            const localStorage_items = [];
+            const sessionStorage_items = [];
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                localStorage_items.push(`${key}: ${localStorage.getItem(key).substring(0, 50)}...`);
+            }
+
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                sessionStorage_items.push(`${key}: ${sessionStorage.getItem(key).substring(0, 50)}...`);
+            }
+
+            document.getElementById('storageInfo').innerHTML = `
+                <div style="text-align: left; margin-top: 20px; font-size: 12px;">
+                    <strong>localStorage (${localStorage_items.length} items):</strong><br>
+                    ${localStorage_items.length ? localStorage_items.join('<br>') : 'Empty'}<br><br>
+                    <strong>sessionStorage (${sessionStorage_items.length} items):</strong><br>
+                    ${sessionStorage_items.length ? sessionStorage_items.join('<br>') : 'Empty'}
+                </div>
+            `;
+        }
+
+        function testLogin() {
+            fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: 'newuser@example.com',
+                    password: 'NewPass123!'
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('message').innerHTML = '<div class="success">✅ API Login Test: SUCCESS</div>';
+                    } else {
+                        document.getElementById('message').innerHTML = '<div style="color: red;">❌ API Login Test: FAILED - ' + data.message + '</div>';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('message').innerHTML = '<div style="color: red;">❌ API Connection Error: ' + error.message + '</div>';
+                });
+        }
+
+        // Show storage info on load
+        showStorageInfo();
+    </script>
+</body>
+
+</html>

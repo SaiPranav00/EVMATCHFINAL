@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP System Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .test-button:hover {
+            background: #0056b3;
+        }
+
+        .test-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        #output {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 EVMatch OTP System Test</h1>
+
+    <div class="test-section">
+        <h3>1. Test User Registration with OTP</h3>
+        <div class="input-group">
+            <label>First Name:</label>
+            <input type="text" id="firstName" value="Test">
+        </div>
+        <div class="input-group">
+            <label>Last Name:</label>
+            <input type="text" id="lastName" value="User">
+        </div>
+        <div class="input-group">
+            <label>Email:</label>
+            <input type="email" id="email" value="test@example.com">
+        </div>
+        <div class="input-group">
+            <label>Password:</label>
+            <input type="password" id="password" value="TestPassword123!">
+        </div>
+        <button class="test-button" onclick="testRegistration()">🚀 Test Registration</button>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Test OTP Verification</h3>
+        <div class="input-group">
+            <label>Email (same as above):</label>
+            <input type="email" id="verifyEmail" value="test@example.com">
+        </div>
+        <div class="input-group">
+            <label>OTP Code:</label>
+            <input type="text" id="otpCode" placeholder="Enter 6-digit OTP from console">
+        </div>
+        <button class="test-button" onclick="testOTPVerification()">✅ Test OTP Verification</button>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Test Resend OTP</h3>
+        <div class="input-group">
+            <label>Email:</label>
+            <input type="email" id="resendEmail" value="test@example.com">
+        </div>
+        <button class="test-button" onclick="testResendOTP()">📧 Test Resend OTP</button>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Test Login (after verification)</h3>
+        <div class="input-group">
+            <label>Email:</label>
+            <input type="email" id="loginEmail" value="test@example.com">
+        </div>
+        <div class="input-group">
+            <label>Password:</label>
+            <input type="password" id="loginPassword" value="TestPassword123!">
+        </div>
+        <button class="test-button" onclick="testLogin()">🔑 Test Login</button>
+    </div>
+
+    <div class="test-section">
+        <h3>🎛️ Test Controls</h3>
+        <button class="test-button" onclick="clearOutput()">🗑️ Clear Output</button>
+        <button class="test-button" onclick="testAll()">🚀 Run All Tests</button>
+        <button class="test-button" onclick="checkServerStatus()">📡 Check Server Status</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+        let lastOTP = null;
+
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            const colorClass = type === 'success' ? 'success' : type === 'error' ? 'error' : '';
+
+            output.innerHTML += `<span class="${colorClass}">[${timestamp}] ${prefix} ${message}</span>\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+        }
+
+        async function makeRequest(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+                const data = await response.json();
+
+                return { response, data };
+            } catch (error) {
+                throw new Error(`Network error: ${error.message}`);
+            }
+        }
+
+        async function checkServerStatus() {
+            log('🔍 Checking server status...');
+            try {
+                const { response, data } = await makeRequest('/auth/me');
+                if (response.status === 401) {
+                    log('✅ Server is running (401 expected for unauthenticated request)', 'success');
+                } else {
+                    log(`✅ Server is running (status: ${response.status})`, 'success');
+                }
+            } catch (error) {
+                log(`❌ Server check failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testRegistration() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            log(`🚀 Testing registration for ${email}...`);
+
+            try {
+                const { response, data } = await makeRequest('/auth/register', 'POST', {
+                    firstName,
+                    lastName,
+                    email,
+                    password
+                });
+
+                if (data.success) {
+                    log(`✅ Registration successful: ${data.message}`, 'success');
+                    log(`📧 OTP should be sent to: ${email}`, 'info');
+                    log(`⚠️ Note: In development, OTP is logged to server console`, 'info');
+
+                    // Auto-fill email fields
+                    document.getElementById('verifyEmail').value = email;
+                    document.getElementById('resendEmail').value = email;
+                    document.getElementById('loginEmail').value = email;
+                } else {
+                    log(`❌ Registration failed: ${data.message}`, 'error');
+                    if (data.errors) {
+                        data.errors.forEach(error => {
+                            log(`   - ${error.msg}`, 'error');
+                        });
+                    }
+                }
+            } catch (error) {
+                log(`❌ Registration error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testOTPVerification() {
+            const email = document.getElementById('verifyEmail').value;
+            const otp = document.getElementById('otpCode').value;
+
+            if (!otp || otp.length !== 6) {
+                log('❌ Please enter a 6-digit OTP code', 'error');
+                return;
+            }
+
+            log(`🔍 Testing OTP verification for ${email} with code ${otp}...`);
+
+            try {
+                const { response, data } = await makeRequest('/auth/verify-otp', 'POST', {
+                    email,
+                    otp
+                });
+
+                if (data.success) {
+                    log(`✅ OTP verification successful: ${data.message}`, 'success');
+                    log(`� User verified: ${data.data.user.firstName} ${data.data.user.lastName}`, 'info');
+                    log(`� Email verified: ${data.data.user.isEmailVerified}`, 'info');
+                    log(`🎯 Next step: User can now sign in`, 'info');
+                } else {
+                    log(`❌ OTP verification failed: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ OTP verification error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testResendOTP() {
+            const email = document.getElementById('resendEmail').value;
+
+            log(`📧 Testing OTP resend for ${email}...`);
+
+            try {
+                const { response, data } = await makeRequest('/auth/resend-otp', 'POST', {
+                    email
+                });
+
+                if (data.success) {
+                    log(`✅ OTP resend successful: ${data.message}`, 'success');
+                    log(`📱 New OTP should be sent to: ${email}`, 'info');
+                } else {
+                    log(`❌ OTP resend failed: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ OTP resend error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            log(`🔑 Testing login for ${email}...`);
+
+            try {
+                const { response, data } = await makeRequest('/auth/login', 'POST', {
+                    email,
+                    password
+                });
+
+                if (data.success) {
+                    log(`✅ Login successful: ${data.message}`, 'success');
+                    log(`🔑 Token received: ${data.data.token.substring(0, 20)}...`, 'info');
+                    log(`👤 User: ${data.data.user.firstName} ${data.data.user.lastName}`, 'info');
+                    log(`✉️ Email verified: ${data.data.user.isEmailVerified}`, 'info');
+                } else {
+                    if (data.needsEmailVerification) {
+                        log(`📧 Login failed - email verification required`, 'error');
+                    } else {
+                        log(`❌ Login failed: ${data.message}`, 'error');
+                    }
+                }
+            } catch (error) {
+                log(`❌ Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAll() {
+            clearOutput();
+            log('🚀 Starting complete OTP system test...');
+
+            await checkServerStatus();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            await testRegistration();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            log('⏸️ Please check server console for OTP code and enter it above, then click "Test OTP Verification"');
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            log('🎯 EVMatch OTP System Test Ready');
+            log('📋 Instructions:');
+            log('1. Click "Run All Tests" to start');
+            log('2. Check the server console for OTP codes');
+            log('3. Use the OTP code to test verification');
+            checkServerStatus();
+        });
+    </script>
+</body>
+
+</html>

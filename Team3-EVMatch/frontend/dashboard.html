@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVMatch - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Eco-friendly nature-inspired color palette */
+            --primary-color: #10b981; /* Emerald green */
+            --primary-dark: #059669; /* Forest green */
+            --primary-light: #34d399; /* Light green */
+            --secondary-color: #3b82f6; /* Ocean blue */
+            --accent-color: #f59e0b; /* Sustainable amber */
+            --earth-brown: #92400e; /* Earth brown */
+            --nature-green: #166534; /* Deep forest */
+            --leaf-green: #15803d; /* Leaf green */
+            --sky-blue: #0ea5e9; /* Sky blue */
+            --text-primary: #1f2937; /* Dark charcoal */
+            --text-secondary: #374151; /* Medium gray */
+            --text-light: #6b7280; /* Light gray */
+            --bg-primary: #f8fafc; /* Clean white */
+            --bg-secondary: #f0fdf4; /* Light green tint */
+            --bg-card: #ffffff; /* Pure white */
+            --border-color: #d1fae5; /* Soft green border */
+            --shadow-sm: 0 1px 2px 0 rgba(16, 185, 129, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(16, 185, 129, 0.1), 0 4px 6px -2px rgba(16, 185, 129, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
+            /* Eco-friendly gradients */
+            --gradient-primary: linear-gradient(135deg, #10b981 0%, #059669 100%); /* Forest gradient */
+            --gradient-secondary: linear-gradient(135deg, #34d399 0%, #10b981 100%); /* Green meadow */
+            --gradient-accent: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); /* Ocean gradient */
+            --gradient-earth: linear-gradient(135deg, #92400e 0%, #a16207 100%); /* Earth tones */
+            --gradient-nature: linear-gradient(135deg, #166534 0%, #15803d 100%); /* Deep nature */
+            --gradient-eco: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #059669 100%); /* Eco blend */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            /* Subtle leaf pattern background */
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.02) 0%, transparent 20%),
+                radial-gradient(circle at 80% 80%, rgba(52, 211, 153, 0.02) 0%, transparent 20%);
+        }
+/* Header */
+        .header {
+            background: rgba(16, 185, 129, 0.9);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(249, 250, 251, 0.2);
+            box-shadow: #148931;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+    
+
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav {
+            display: flex;
+             box-shadow: 0 12px 20px #66ddb7; /* thick green shadow */
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f9fafb;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo::before {
+            content: '⚡';
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: #f9fafb;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.4s ease;
+            border-radius: 25px;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: transparent;
+            transform: translateY(-2px);
+        }
+
+        .user-menu {
+            background: rgba(34, 197, 94, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu:hover {
+            background: rgba(34, 197, 94, 0.5);
+            transform: scale(1.1);
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            background: rgba(16, 185, 129, 1);
+            transform: scale(1.05);
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a5568;
+        }
+
+        .dropdown-item:hover {
+            background: #f7fafc;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 12px 12px;
+            border-top: 1px solid #e2e8f0;
+            color: #e53e3e;
+        }
+        /* Enhanced Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Enhanced Hero Section with eco theme */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 5rem;
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(52, 211, 153, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            border-radius: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-eco);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+        }
+
+        .hero-content h1::after {
+            content: '🌿';
+            position: absolute;
+            top: -0.5rem;
+            right: -2rem;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+            border-radius: 0.75rem;
+        }
+
+        .btn-secondary:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-secondary:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Enhanced Hero Video with eco theme */
+        .hero-image {
+            position: relative;
+            animation: fadeInRight 0.8s ease;
+        }
+
+        .hero-video-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            background: var(--gradient-nature);
+            border: 3px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .hero-video-container:hover {
+            transform: scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25);
+        }
+
+        .hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(16, 185, 129, 0.1);
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 1.25rem;
+        }
+
+        .hero-video-container:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 0.75rem;
+            background: rgba(16, 185, 129, 0.9);
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .video-control-btn {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .video-control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .video-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: white;
+            text-align: center;
+        }
+
+        .video-fallback::before {
+            content: '🌍';
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .video-fallback p {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Enhanced Stats Section */
+        .stats-section {
+            margin-bottom: 5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:nth-child(1) .stat-icon {
+            background: var(--gradient-primary);
+        }
+
+        .stat-card:nth-child(1) .stat-icon::before {
+            content: '🌱';
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: var(--gradient-accent);
+        }
+
+        .stat-card:nth-child(2) .stat-icon::before {
+            content: '🌊';
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: var(--gradient-earth);
+        }
+
+        .stat-card:nth-child(3) .stat-icon::before {
+            content: '🌍';
+        }
+
+        .stat-card:nth-child(4) .stat-icon {
+            background: var(--gradient-nature);
+        }
+
+        .stat-card:nth-child(4) .stat-icon::before {
+            content: '♻';
+        }
+
+        .stat-content h3 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-content p {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced Features Section */
+        .features-section {
+            margin-bottom: 5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .section-header h2 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .section-header h2::after {
+            content: '🌿';
+            position: absolute;
+            top: -0.5rem;
+            right: -2.5rem;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .section-header p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 2rem;
+            background: var(--gradient-primary);
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            position: relative;
+            border: 3px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced Popular EVs Section */
+        .popular-evs-section {
+            margin-bottom: 5rem;
+        }
+
+        .evs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .ev-card {
+            background: var(--bg-card);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .ev-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .ev-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .ev-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
+        }
+
+        .ev-image {
+            width: 100%;
+            height: 220px;
+            background: var(--gradient-nature);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ev-image::before {
+            content: '🔋';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .ev-content {
+            padding: 2rem;
+        }
+
+        .ev-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .ev-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .ev-specs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 0.75rem;
+        }
+
+        .ev-spec {
+            text-align: center;
+        }
+
+        .ev-spec-value {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .ev-spec-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .ev-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-small {
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-small.primary {
+            background: var(--gradient-primary);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .btn-small.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            background: var(--nature-green);
+            color: white;
+            margin-top: 5rem;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section ul li a {
+            color: #d1fae5;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo::before {
+            content: '🌱';
+            font-size: 1.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(209, 250, 229, 0.2);
+            padding: 2rem;
+            text-align: center;
+            color: #d1fae5;
+            font-weight: 500;
+        }
+
+        /* Enhanced Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Eco-specific animations */
+        @keyframes leafSway {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        @keyframes ecoGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content h1::after {
+                position: static;
+                display: block;
+                margin-top: 1rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .evs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+        } 
+    </style>
+</head>
+
+<body>
+    
+
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">EVMatch</a>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="browse.html" class="nav-link active">Browse EVs</a></li>
+                    <li><a href="compare.html" class="nav-link">Compare</a></li>
+                    <li><a href="quiz.html" class="nav-link">Find My EV</a></li>
+                    <li><a href="charging.html" class="nav-link">Charging Stations</a></li>
+                    <li><a href="review.html" class="nav-link">Reviews</a></li>
+                </ul>
+                <div class="user-section">
+                <div class="user-avatar" id="userAvatar">
+                    <span id="userInitials">U</span>
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="dropdown-item" onclick="openProfile()">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </div>
+                    <div class="dropdown-item" onclick="openFavorites()">
+                        <i class="fas fa-heart"></i>
+                        Favorites
+                    </div>
+                    <div class="dropdown-item" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </div>
+                    <div class="dropdown-item" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </div>
+                </div>
+            </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>Find Your Perfect Electric Vehicle</h1>
+                <p>Discover, compare, and choose from thousands of electric vehicles with our intelligent matching
+                    system.</p>
+                <div class="hero-actions">
+                    <a href="quiz.html" class="btn-primary">
+                        <i class="fas fa-magic"></i>
+                        Take EV Quiz
+                    </a>
+                    <a href="browse.html" class="btn-secondary">
+                        <i class="fas fa-search"></i>
+                        Browse All EVs
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-video-container">
+                    <video 
+                        class="hero-video" 
+                        autoplay 
+                        muted 
+                        loop 
+                        playsinline
+                        poster="https://via.placeholder.com/600x400/667eea/ffffff?text=EV+Loading..."
+                    >
+                        <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        <!-- Fallback for browsers that don't support video -->
+                        <div class="video-fallback">
+                            <i class="fas fa-car" style="font-size: 4rem; color: white;"></i>
+                            <p>Your browser doesn't support video playback</p>
+                        </div>
+                    </video>
+                    <div class="video-overlay">
+                        <div class="video-controls">
+                            <button class="video-control-btn" id="playPauseBtn" aria-label="Play or pause video">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button class="video-control-btn" id="muteBtn">
+                                <i class="fas fa-volume-mute"></i>
+                            </button>
+                            <button class="video-control-btn" id="fullscreenBtn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>500+</h3>
+                        <p>Electric Vehicles</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-charging-station"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>10,000+</h3>
+                        <p>Charging Stations</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>50,000+</h3>
+                        <p>Happy Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>1M+</h3>
+                        <p>CO₂ Saved (tons)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="section-header">
+                <h2>Why Choose EVMatch?</h2>
+                <p>Everything you need to make the perfect EV decision</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Smart Recommendations</h3>
+                    <p>Our AI-powered quiz analyzes your lifestyle and preferences to recommend the perfect EV for you.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Side-by-Side Comparison</h3>
+                    <p>Compare multiple EVs across all specifications, pricing, and features to make informed decisions.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Charging Network</h3>
+                    <p>Find charging stations near you with real-time availability and route planning capabilities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Cost Calculator</h3>
+                    <p>Calculate total cost of ownership including purchase price, charging costs, and maintenance.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="popular-evs-section">
+            <div class="section-header">
+                <h2>Popular Electric Vehicles</h2>
+                <p>Most searched and compared EVs this month</p>
+            </div>
+            <div class="evs-grid" id="popularEVs">
+                <!-- Popular EVs will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>EVMatch</span>
+                </div>
+                <p>Empowering your electric vehicle journey with intelligent matching and comprehensive tools.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="browse.html">Browse EVs</a></li>
+                    <li><a href="compare.html">Compare Vehicles</a></li>
+                    <li><a href="quiz.html">EV Quiz</a></li>
+                    <li><a href="charging.html">Charging Stations</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EVMatch. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Popular EVs data
+        const popularEVs = [
+            {
+                id: 1,
+                name: " Mahindra XEV 9e",
+                price: "Rs. 21.90 Lakh",
+                range: "358 mi",
+                charging: "30 min",
+                efficiency: "131 MPGe",
+                icon: "fas fa-car"
+            },
+            {
+                id: 2,
+                name: "BMW iX",
+                price: "Rs. 121 lakh",
+                range: "380 mi",
+                charging: "35 min",
+                efficiency: "105 MPGe",
+                icon: "fas fa-car-side"
+            },
+            {
+                id: 3,
+                name: "Audi e-tron GT",
+                price: "Rs. 171.57 lakh",
+                range: "314 mi",
+                charging: "38 min",
+                efficiency: "108 MPGe",
+                icon: "fas fa-car"
+            },
+            {
+                id: 4,
+                name: "Ather 450X",
+                price: "$99,900",
+                range: "238 mi",
+                charging: "22 min",
+                efficiency: "89 MPGe",
+                icon: "fas fa-car-side"
+            },
+            {
+                id: 5,
+                name: "Hyundai IONIQ 5",
+                price: "$41,450",
+                range: "305 mi",
+                charging: "18 min",
+                efficiency: "114 MPGe",
+                icon: "fas fa-car"
+            },
+            {
+                id: 6,
+                name: "Rivian R1T",
+                price: "$73,000",
+                range: "314 mi",
+                charging: "40 min",
+                efficiency: "70 MPGe",
+                icon: "fas fa-truck"
+            }
+        ];
+
+        // DOM elements
+        const popularEVsContainer = document.getElementById('popularEVs');
+        const navbar = document.querySelector('.navbar');
+        const statCards = document.querySelectorAll('.stat-card');
+        const featureCards = document.querySelectorAll('.feature-card');
+        const heroVideo = document.querySelector('.hero-video');
+        const videoContainer = document.querySelector('.hero-video-container');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPopularEVs();
+            initializeAnimations();
+            setupScrollEffects();
+            setupInteractiveElements();
+            setupVideoControls();
+        });
+
+        // Load popular EVs
+        function loadPopularEVs() {
+            if (!popularEVsContainer) return;
+
+            popularEVsContainer.innerHTML = '';
+            
+            popularEVs.forEach((ev, index) => {
+                const evCard = createEVCard(ev);
+                evCard.style.animationDelay = `${index * 0.1}s`;
+                popularEVsContainer.appendChild(evCard);
+            });
+        }
+
+        // Create EV card element
+        function createEVCard(ev) {
+            const card = document.createElement('div');
+            card.className = 'ev-card';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.animation = 'fadeInUp 0.6s ease forwards';
+
+            card.innerHTML = `
+                <div class="ev-image">
+                    <i class="${ev.icon}" style="font-size: 3rem; color: white;"></i>
+                </div>
+                <div class="ev-content">
+                    <h3 class="ev-title">${ev.name}</h3>
+                    <p class="ev-price">${ev.price}</p>
+                    <div class="ev-specs">
+                        <div class="ev-spec">
+                            <div class="ev-spec-value">${ev.range}</div>
+                            <div class="ev-spec-label">Range</div>
+                        </div>
+                        <div class="ev-spec">
+                            <div class="ev-spec-value">${ev.charging}</div>
+                            <div class="ev-spec-label">Charging</div>
+                        </div>
+                        <div class="ev-spec">
+                            <div class="ev-spec-value">${ev.efficiency}</div>
+                            <div class="ev-spec-label">Efficiency</div>
+                        </div>
+                    </div>
+                    <div class="ev-actions">
+                        <a href="#" class="btn-small primary" onclick="viewDetails(${ev.id})">View Details</a>
+                        <a href="#" class="btn-small secondary" onclick="addToCompare(${ev.id})">Compare</a>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // View EV details
+        function viewDetails(evId) {
+            const ev = popularEVs.find(e => e.id === evId);
+            if (ev) {
+                // Simulate navigation or modal
+                console.log(`Viewing details for ${ev.name}`);
+                // In a real app, this would navigate to a details page
+                showNotification(`Viewing details for ${ev.name}`, 'info');
+            }
+        }
+
+        // Add to compare
+        function addToCompare(evId) {
+            const ev = popularEVs.find(e => e.id === evId);
+            if (ev) {
+                console.log(`Added ${ev.name} to comparison`);
+                showNotification(`${ev.name} added to comparison!`, 'success');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            // Add notification styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : '#6366f1'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+            `;
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize animations
+        function initializeAnimations() {
+            // Animate stats on scroll
+            const animateStats = () => {
+                statCards.forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    
+                    if (isVisible) {
+                        const counter = card.querySelector('.stat-content h3');
+                        if (counter && !counter.classList.contains('animated')) {
+                            counter.classList.add('animated');
+                            animateCounter(counter);
+                        }
+                    }
+                });
+            };
+
+            // Animate feature cards
+            const animateFeatures = () => {
+                featureCards.forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    
+                    if (isVisible && !card.classList.contains('animated')) {
+                        card.classList.add('animated');
+                        card.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s forwards`;
+                    }
+                });
+            };
+
+            // Initial check
+            animateStats();
+            animateFeatures();
+
+            // Listen for scroll events
+            window.addEventListener('scroll', () => {
+                animateStats();
+                animateFeatures();
+            });
+        }
+
+        // Animate counter numbers
+        function animateCounter(element) {
+            const target = parseInt(element.textContent.replace(/\D/g, ''));
+            const suffix = element.textContent.replace(/[\d,]/g, '');
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString() + suffix;
+            }, 40);
+        }
+
+        // Setup scroll effects
+        function setupScrollEffects() {
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                // Navbar scroll effect
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+                
+                // Add/remove shadow based on scroll position
+                if (currentScrollY > 0) {
+                    navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                } else {
+                    navbar.style.boxShadow = 'none';
+                }
+                
+                lastScrollY = currentScrollY;
+            });
+        }
+
+        // Setup interactive elements
+        function setupInteractiveElements() {
+            // Add click ripple effect to buttons
+            document.querySelectorAll('.btn-primary, .btn-secondary, .btn-small').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.4);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        if (ripple.parentNode) {
+                            ripple.parentNode.removeChild(ripple);
+                        }
+                    }, 600);
+                });
+            });
+
+            // Add hover effects to cards
+            document.querySelectorAll('.stat-card, .feature-card, .ev-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add loading states to buttons
+            document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.href && this.href.includes('#')) {
+                        e.preventDefault();
+                        
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<span class="loading"></span> Loading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            this.style.pointerEvents = 'auto';
+                        }, 2000);
+                    }
+                });
+            });
+        }
+
+        // Add CSS for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            .notification {
+                font-weight: 500;
+                border-left: 4px solid rgba(255, 255, 255, 0.3);
+            }
+            
+            .notification i {
+                font-size: 1.2rem;
+            }
+            
+            .stat-card, .feature-card, .ev-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .animated {
+                animation-fill-mode: both;
+            }
+            
+            /* Enhanced hover effects */
+            .nav-link::before {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: var(--primary-color);
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+            
+            .nav-link:hover::before,
+            .nav-link.active::before {
+                width: 100%;
+            }
+            
+            /* Improved button animations */
+            .btn-primary, .btn-secondary {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .btn-primary:active {
+                transform: translateY(-1px) scale(0.98);
+            }
+            
+            .btn-secondary:active {
+                transform: translateY(-1px) scale(0.98);
+            }
+            
+            /* Enhanced card shadows */
+            .stat-card:hover,
+            .feature-card:hover,
+            .ev-card:hover {
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            }
+            
+            /* Gradient text animation */
+            .hero-content h1 {
+                background-size: 200% 200%;
+                animation: gradient 3s ease infinite;
+            }
+            
+            @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+            
+            /* Improved mobile responsiveness */
+            @media (max-width: 640px) {
+                .hero-content h1 {
+                    font-size: 2.5rem;
+                }
+                
+                .hero-actions {
+                    flex-direction: column;
+                    width: 100%;
+                }
+                
+                .btn-primary, .btn-secondary {
+                    width: 100%;
+                    justify-content: center;
+                }
+                
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .stat-card {
+                    text-align: center;
+                    flex-direction: column;
+                }
+                
+                .notification {
+                    right: 10px;
+                    left: 10px;
+                    transform: translateY(-100px);
+                }
+                
+                .notification.show {
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add performance monitoring
+        function monitorPerformance() {
+            if ('performance' in window) {
+                window.addEventListener('load', () => {
+                    const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                    console.log(`Page loaded in ${loadTime}ms`);
+                });
+            }
+        }
+
+        // Initialize performance monitoring
+        monitorPerformance();
+
+        // Setup video controls
+        function setupVideoControls() {
+            if (!heroVideo) return;
+
+            // Video loaded event
+            heroVideo.addEventListener('loadeddata', function() {
+                videoContainer.classList.add('loaded');
+                console.log('Video loaded successfully');
+            });
+
+            // Video error handling
+            heroVideo.addEventListener('error', function(e) {
+                console.error('Video failed to load:', e);
+                showVideoFallback();
+            });
+
+            // Play/Pause button
+            if (playPauseBtn) {
+                playPauseBtn.addEventListener('click', function() {
+                    if (heroVideo.paused) {
+                        heroVideo.play();
+                        this.innerHTML = '<i class="fas fa-pause"></i>';
+                    } else {
+                        heroVideo.pause();
+                        this.innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                });
+            }
+
+            // Mute/Unmute button
+            if (muteBtn) {
+                muteBtn.addEventListener('click', function() {
+                    heroVideo.muted = !heroVideo.muted;
+                    if (heroVideo.muted) {
+                        this.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    } else {
+                        this.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    }
+                });
+            }
+
+            // Fullscreen button
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', function() {
+                    if (heroVideo.requestFullscreen) {
+                        heroVideo.requestFullscreen();
+                    } else if (heroVideo.webkitRequestFullscreen) {
+                        heroVideo.webkitRequestFullscreen();
+                    } else if (heroVideo.msRequestFullscreen) {
+                        heroVideo.msRequestFullscreen();
+                    }
+                });
+            }
+
+            // Video click to play/pause
+            heroVideo.addEventListener('click', function() {
+                if (this.paused) {
+                    this.play();
+                    if (playPauseBtn) {
+                        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    }
+                } else {
+                    this.pause();
+                    if (playPauseBtn) {
+                        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                }
+            });
+
+            // Auto-play handling for mobile
+            heroVideo.addEventListener('canplaythrough', function() {
+                // Try to play the video, handle autoplay restrictions
+                const playPromise = this.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log('Autoplay was prevented:', error);
+                        // Show play button prominently if autoplay fails
+                        showPlayButton();
+                    });
+                }
+            });
+
+            // Video ended event
+            heroVideo.addEventListener('ended', function() {
+                if (playPauseBtn) {
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+
+            // Video progress (optional - for future enhancements)
+            heroVideo.addEventListener('timeupdate', function() {
+                const progress = (this.currentTime / this.duration) * 100;
+                // Could add a progress bar here if needed
+            });
+        }
+
+        // Show video fallback when video fails to load
+        function showVideoFallback() {
+            const fallbackHtml = `
+                <div class="video-fallback">
+                    <i class="fas fa-car" style="font-size: 4rem; color: white; margin-bottom: 1rem;"></i>
+                    <p>Loading EV Experience...</p>
+                    <button class="btn-primary" style="margin-top: 1rem;" onclick="retryVideo()">
+                        <i class="fas fa-redo"></i> Retry Video
+                    </button>
+                </div>
+            `;
+            
+            if (videoContainer) {
+                videoContainer.innerHTML = fallbackHtml;
+            }
+        }
+
+        // Show prominent play button for autoplay restrictions
+        function showPlayButton() {
+            const playOverlay = document.createElement('div');
+            playOverlay.className = 'video-play-overlay';
+            playOverlay.innerHTML = `
+                <button class="video-play-btn">
+                    <i class="fas fa-play"></i>
+                </button>
+            `;
+            
+            playOverlay.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+                border-radius: 1rem;
+                cursor: pointer;
+            `;
+            
+            const playBtn = playOverlay.querySelector('.video-play-btn');
+            playBtn.style.cssText = `
+                background: var(--primary-color);
+                border: none;
+                color: white;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            `;
+            
+            playOverlay.addEventListener('click', function() {
+                heroVideo.play();
+                playOverlay.remove();
+                if (playPauseBtn) {
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+            });
+            
+            videoContainer.appendChild(playOverlay);
+        }
+
+        // Retry video loading
+        function retryVideo() {
+            if (heroVideo) {
+                heroVideo.load();
+                showNotification('Retrying video load...', 'info');
+            }
+        }
+
+        // Video quality detection (optional enhancement)
+        function detectVideoQuality() {
+            if (heroVideo && heroVideo.videoWidth && heroVideo.videoHeight) {
+                const width = heroVideo.videoWidth;
+                const height = heroVideo.videoHeight;
+                let quality = 'SD';
+                
+                if (width >= 1920 && height >= 1080) {
+                    quality = 'HD';
+                } else if (width >= 1280 && height >= 720) {
+                    quality = '720p';
+                } else if (width >= 854 && height >= 480) {
+                    quality = '480p';
+                }
+                
+                // Add quality indicator
+                const qualityIndicator = document.createElement('div');
+                qualityIndicator.className = 'video-quality';
+                qualityIndicator.textContent = quality;
+                videoContainer.appendChild(qualityIndicator);
+            }
+        }
+
+        // Call quality detection when video metadata is loaded
+        if (heroVideo) {
+            heroVideo.addEventListener('loadedmetadata', detectVideoQuality);
+        }
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-nav');
+        });
+
+        // Add focus styles for keyboard navigation
+        const focusStyle = document.createElement('style');
+        focusStyle.textContent = `
+            .keyboard-nav *:focus {
+                outline: 2px solid var(--primary-color);
+                outline-offset: 2px;
+            }
+            
+            .keyboard-nav .nav-link:focus {
+                background-color: rgba(99, 102, 241, 0.1);
+            }
+        `;
+        document.head.appendChild(focusStyle);
+    </script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

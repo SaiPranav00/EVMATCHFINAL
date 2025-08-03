@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quick Login Test - EVMatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f9ff;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #059669;
+        }
+
+        .success {
+            color: #059669;
+            margin: 20px 0;
+        }
+
+        .error {
+            color: #dc2626;
+            margin: 20px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>🔐 Quick Login & Test Profile</h2>
+
+        <h3>Quick Login</h3>
+        <input type="email" id="email" placeholder="Email" value="newuser@example.com">
+        <input type="password" id="password" placeholder="Password" value="NewPass123!">
+        <button onclick="quickLogin()">Login & Go to Dashboard</button>
+
+        <div id="message"></div>
+
+        <hr style="margin: 30px 0;">
+
+        <h3>Debug Tools</h3>
+        <button onclick="checkToken()">Check Current Token</button>
+        <button onclick="clearTokens()">Clear All Tokens</button>
+        <button onclick="testProfileFunction()">Test Profile Function</button>
+        <button onclick="goToDashboard()">Go to Dashboard</button>
+
+        <div id="debugInfo"></div>
+    </div>
+
+    <script>
+        async function quickLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store token
+                    localStorage.setItem('authToken', data.data.token);
+                    localStorage.setItem('user', JSON.stringify(data.data.user));
+
+                    document.getElementById('message').innerHTML = '<div class="success">✅ Login successful! Token stored. Redirecting to dashboard...</div>';
+
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    document.getElementById('message').innerHTML = '<div class="error">❌ Login failed: ' + data.message + '</div>';
+                }
+            } catch (error) {
+                document.getElementById('message').innerHTML = '<div class="error">❌ Connection error: ' + error.message + '</div>';
+            }
+        }
+
+        function checkToken() {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            const user = localStorage.getItem('user') || sessionStorage.getItem('user');
+
+            document.getElementById('debugInfo').innerHTML = `
+                <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin-top: 15px;">
+                    <strong>Token:</strong> ${token ? 'Present (' + token.substring(0, 30) + '...)' : 'Missing'}<br>
+                    <strong>User:</strong> ${user ? JSON.parse(user).email : 'Missing'}
+                </div>
+            `;
+        }
+
+        function clearTokens() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('user');
+            document.getElementById('message').innerHTML = '<div class="success">✅ All tokens cleared!</div>';
+            checkToken();
+        }
+
+        function testProfileFunction() {
+            // Simulate the profile button click
+            if (typeof openProfile === 'function') {
+                openProfile();
+            } else {
+                // Manual redirect like the dashboard does
+                window.location.href = 'profile.html';
+            }
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Check current state on load
+        window.onload = function () {
+            checkToken();
+        };
+    </script>
+</body>
+
+</html>

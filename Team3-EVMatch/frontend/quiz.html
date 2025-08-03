@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Quiz - EVMatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    
+
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">EVMatch</a>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="browse.html" class="nav-link active">Browse EVs</a></li>
+                    <li><a href="compare.html" class="nav-link">Compare</a></li>
+                    <li><a href="quiz.html" class="nav-link">Find My EV</a></li>
+                    <li><a href="charging.html" class="nav-link">Charging Stations</a></li>
+                    <li><a href="review.html"class="nav-link">Reviews</a>
+                </ul>
+                <div class="user-menu">👤</div>
+            </nav>
+        </div>
+    </header>
+
+            
+
+    <main class="main-content">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h1>Find Your Perfect EV</h1>
+                <p>Answer a few questions and we'll recommend the best electric vehicles for your lifestyle</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">Question 1 of 8</span>
+            </div>
+
+            <div class="quiz-content" id="quizContent">
+                <!-- Quiz questions will be loaded here -->
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">
+                    <i class="fas fa-arrow-left"></i>
+                    Previous
+                </button>
+                <button class="btn-primary" id="nextBtn" onclick="nextQuestion()">
+                    Next
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h3>Your EV Recommendations</h3>
+                    <button class="close-modal" onclick="closeResultsModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="results-summary" id="resultsSummary">
+                        <!-- Results summary will be loaded here -->
+                    </div>
+                    <div class="recommended-evs" id="recommendedEVs">
+                        <!-- Recommended EVs will be loaded here -->
+                    </div>
+                    <div class="results-actions">
+                        <button class="btn-primary" onclick="saveResults()">
+                            <i class="fas fa-bookmark"></i>
+                            Save Results
+                        </button>
+                        <button class="btn-secondary" onclick="retakeQuiz()">
+                            <i class="fas fa-redo"></i>
+                            Retake Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+    <script src="quiz.js"></script>
+</body>
+
+</html>
